@@ -4,69 +4,83 @@ This file provides guidance for AI assistants working with the Clause-test repos
 
 ## Project Overview
 
-Clause-test is a newly initialized project repository. It is in the early stages of development and does not yet contain application code, build tooling, or tests.
+Clarity Finance is a personal finance consulting business website. It's a static, single-page site designed to be shared with potential clients so they can learn about services, read testimonials, and get in touch.
+
+The site is built with plain HTML, CSS, and vanilla JavaScript — no frameworks or build tools. This keeps it fast, simple, and easy to host on any static hosting provider (GitHub Pages, Netlify, Vercel, etc.).
 
 ## Repository Structure
 
 ```
 /
+├── index.html       # Single-page website (all sections)
+├── styles.css       # All styling, responsive design
+├── script.js        # Mobile navigation toggle
 ├── README.md        # Project title and description
 ├── CLAUDE.md        # This file — AI assistant guidance
 └── .git/            # Git version control
 ```
 
-## Current State
+## Tech Stack
 
-- **Languages/Frameworks**: None yet configured
-- **Build System**: None yet configured
-- **Package Manager**: None yet configured
-- **Testing**: None yet configured
-- **Linting/Formatting**: None yet configured
-- **CI/CD**: None yet configured
+- **HTML5** — semantic markup, no templating
+- **CSS3** — custom properties, grid, flexbox, media queries
+- **Vanilla JS** — minimal, only for mobile nav toggle
+- **No build step** — open `index.html` in a browser to preview
 
-## Git Workflow
+## Site Sections
 
-- **Remote**: GitHub (origin)
-- **Default Branch**: `main`
-- **Commit Style**: Use clear, concise commit messages describing the "why" behind changes
+The site is a single-page layout with these sections (in order):
+
+1. **Header** — fixed nav bar with logo and links, mobile hamburger menu
+2. **Hero** — headline, subtitle, two CTA buttons
+3. **About** — bio, photo placeholder, stats (clients, experience, satisfaction)
+4. **Services** — 6-card grid (budgeting, investing, debt, retirement, education, coaching)
+5. **Approach** — 3-step "how it works" process
+6. **Testimonials** — 3 client testimonial cards
+7. **Contact/CTA** — email, phone, location with CTA button
+8. **Footer** — logo and copyright
+
+## Design System
+
+- **Color palette**: teal primary (`#2b6777`), warm orange accent (`#f2a154`), neutral text
+- **Typography**: Georgia for headings (serif), system UI stack for body (sans-serif)
+- **Style**: professional and minimal, warm background tones, card-based layouts
+- **Responsive breakpoints**: 900px (tablet), 680px (mobile)
 
 ## Development Guidelines
 
-When adding code to this repository, follow these conventions:
+### Editing Content
 
-### General
+- All text content is in `index.html` — update directly
+- Placeholder items to customize: business name, bio text, photo, contact details, stats, testimonials
+- Replace "Clarity Finance" with the actual business name throughout `index.html` and `styles.css` if needed
 
-- Keep the repository clean — do not commit IDE-specific files, OS artifacts, or secrets
-- Add a `.gitignore` appropriate to the chosen language/framework before adding source code
-- Update this CLAUDE.md as the project evolves (add build commands, test commands, architecture notes)
+### Styling
 
-### Code Quality
+- CSS custom properties are defined at the top of `styles.css` in `:root` — change colors/fonts there
+- Sections are self-contained in the CSS, organized with comment headers
+- Mobile styles are at the bottom in `@media` blocks
 
-- Set up linting and formatting tools early and document the commands here
-- Write tests alongside new features
-- Prefer simple, readable code over clever abstractions
+### Adding Images
 
-### Documentation
+- Replace the `about-image-placeholder` div with an `<img>` tag
+- Optimize images before adding (compress, appropriate dimensions)
 
-- Keep README.md up to date with setup instructions and project purpose
-- Document build, test, and lint commands in this file as they are added
+### General Conventions
+
+- Keep it static — no build tools or frameworks unless complexity demands it
+- Prefer CSS for animations and transitions over JavaScript
+- Keep `script.js` minimal
+- Do not commit IDE-specific files, OS artifacts, or secrets
 
 ## Common Commands
 
-_No commands configured yet. Update this section as tooling is added._
-
-<!-- Example format for future use:
 ```bash
-# Install dependencies
-npm install
+# Preview locally (Python)
+python3 -m http.server 8000
 
-# Run tests
-npm test
+# Preview locally (Node)
+npx serve .
 
-# Lint
-npm run lint
-
-# Build
-npm run build
+# Or simply open index.html directly in a browser
 ```
--->
