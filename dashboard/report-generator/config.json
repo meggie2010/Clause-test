@@ -1,0 +1,40 @@
+{
+  "client_name": "Client Name",
+  "consultant_name": "Michael Eggie",
+  "business_name": "Clarity Finance",
+  "looker_studio_url": "YOUR_LOOKER_STUDIO_REPORT_URL_HERE",
+  "report_pages": [
+    {
+      "name": "spending_overview",
+      "label": "Spending Overview",
+      "page_index": 0,
+      "description": "Overall spending dashboard with gauge"
+    },
+    {
+      "name": "category_breakdown",
+      "label": "Category Breakdown",
+      "page_index": 1,
+      "description": "Spending by category"
+    },
+    {
+      "name": "budget_vs_actual",
+      "label": "Budget vs. Actual",
+      "page_index": 2,
+      "description": "Budget comparison view"
+    },
+    {
+      "name": "trends",
+      "label": "Spending Trends",
+      "page_index": 3,
+      "description": "Spending over time"
+    }
+  ],
+  "brand_colors": {
+    "primary": "#2b6777",
+    "accent": "#f2a154",
+    "dark": "#1a4a56",
+    "light": "#f9fafb",
+    "text": "#2d3748"
+  },
+  "output_dir": "output"
+}

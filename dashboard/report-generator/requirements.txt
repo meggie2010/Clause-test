@@ -1,0 +1,2 @@
+python-pptx>=0.6.21
+playwright>=1.40.0
