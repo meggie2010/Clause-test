@@ -1,9 +1,10 @@
 """
-Full Report Generator — Capture + Build in one step.
+Full Report Generator — Extract PDF pages + Build deck in one step.
 
 Usage:
     python generate_report.py
     python generate_report.py --client "Sarah M." --date-range "Jan 1 - Jan 15, 2026"
+    python generate_report.py --pdf "report.pdf" --client "Sarah M."
     python generate_report.py --skip-capture  (if screenshots already exist)
 """
 
@@ -14,7 +15,7 @@ from build_deck import build_report
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Capture Looker Studio dashboard and generate PowerPoint report"
+        description="Extract Looker Studio PDF and generate PowerPoint report"
     )
     parser.add_argument(
         "--date-range",
@@ -25,20 +26,24 @@ def main():
         help="Client name (overrides config.json)"
     )
     parser.add_argument(
+        "--pdf",
+        help="Path to the Looker Studio PDF export"
+    )
+    parser.add_argument(
         "--skip-capture",
         action="store_true",
-        help="Skip screenshot capture (use existing screenshots)"
+        help="Skip PDF extraction (use existing screenshots)"
     )
     args = parser.parse_args()
 
     config = load_config()
 
-    # Step 1: Capture screenshots
+    # Step 1: Extract images from PDF
     if not args.skip_capture:
         print("=" * 50)
-        print("STEP 1: Capturing Looker Studio screenshots")
+        print("STEP 1: Extracting images from Looker Studio PDF")
         print("=" * 50)
-        capture_report(config)
+        capture_report(config, pdf_path=args.pdf)
         print()
 
     # Step 2: Build PowerPoint

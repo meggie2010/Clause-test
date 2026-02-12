@@ -1,20 +1,20 @@
 """
-Looker Studio Screenshot Capture
+Looker Studio PDF to Images
 
-Captures screenshots of each page in a Looker Studio report.
-The report must be set to "Anyone with the link can view" for
-this to work without Google authentication.
+Converts a Looker Studio PDF export into individual page images
+for use in the PowerPoint deck builder.
 
 Usage:
     python capture.py
+    python capture.py --pdf "path/to/report.pdf"
 """
 
+import argparse
 import json
-import os
 import sys
-import time
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+
+from pdf2image import convert_from_path
 
 
 def load_config():
@@ -23,76 +23,87 @@ def load_config():
         return json.load(f)
 
 
-def capture_report(config):
-    """Capture screenshots of each Looker Studio report page."""
-    url = config["looker_studio_url"]
-    pages = config["report_pages"]
+def find_pdf(config):
+    """Look for a PDF file in the report-generator directory."""
+    script_dir = Path(__file__).parent
+    pdfs = list(script_dir.glob("*.pdf"))
+    if len(pdfs) == 1:
+        return pdfs[0]
+    elif len(pdfs) > 1:
+        print("Multiple PDF files found:")
+        for i, pdf in enumerate(pdfs):
+            print(f"  {i + 1}. {pdf.name}")
+        print("\nPlease specify which one with: python capture.py --pdf \"filename.pdf\"")
+        sys.exit(1)
+    return None
+
+
+def extract_pages(pdf_path, config):
+    """Convert each PDF page to a PNG image."""
+    pages_config = config["report_pages"]
     output_dir = Path(__file__).parent / "screenshots"
     output_dir.mkdir(exist_ok=True)
 
-    if url == "YOUR_LOOKER_STUDIO_REPORT_URL_HERE":
-        print("ERROR: Please set your Looker Studio report URL in config.json")
-        sys.exit(1)
+    print(f"Converting PDF: {pdf_path}")
+    images = convert_from_path(str(pdf_path), dpi=200)
+    print(f"Found {len(images)} pages in PDF")
 
-    print(f"Capturing {len(pages)} pages from Looker Studio...")
+    saved = []
+    for page_config in pages_config:
+        name = page_config["name"]
+        page_index = page_config["page_index"]
+        label = page_config["label"]
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            viewport={"width": 1400, "height": 900},
-            device_scale_factor=2  # High-DPI for crisp screenshots
-        )
-        page = context.new_page()
+        if page_index >= len(images):
+            print(f"  WARNING: Page {page_index} requested but PDF only has {len(images)} pages. Skipping '{label}'.")
+            continue
 
-        # Load the report
-        print(f"Loading report: {url}")
-        page.goto(url, wait_until="networkidle", timeout=60000)
+        output_path = output_dir / f"{name}.png"
+        images[page_index].save(str(output_path), "PNG")
+        print(f"  Page {page_index + 1} -> {output_path.name} ({label})")
+        saved.append(output_path)
 
-        # Wait for Looker Studio to fully render
-        time.sleep(5)
+    # If there are more PDF pages than configured pages, save them too
+    configured_indices = {p["page_index"] for p in pages_config}
+    for i, img in enumerate(images):
+        if i not in configured_indices:
+            output_path = output_dir / f"page_{i + 1}.png"
+            img.save(str(output_path), "PNG")
+            print(f"  Page {i + 1} -> {output_path.name} (extra page)")
+            saved.append(output_path)
 
-        # Dismiss any cookie/consent banners
-        try:
-            page.click('button:has-text("Accept")', timeout=3000)
-            time.sleep(1)
-        except Exception:
-            pass
-
-        for i, report_page in enumerate(pages):
-            name = report_page["name"]
-            page_index = report_page["page_index"]
-
-            # Navigate to the specific page if multi-page report
-            if page_index > 0:
-                # Looker Studio appends /page/pN to the URL
-                page_url = f"{url}/page/p{page_index}"
-                page.goto(page_url, wait_until="networkidle", timeout=60000)
-                time.sleep(4)
-
-            # Hide the Looker Studio toolbar/header for cleaner screenshots
-            page.evaluate("""
-                () => {
-                    // Hide the top toolbar
-                    const toolbar = document.querySelector('[data-p="report-toolbar"]');
-                    if (toolbar) toolbar.style.display = 'none';
-                    // Hide the page navigation tabs
-                    const tabs = document.querySelector('[class*="pageTabs"]');
-                    if (tabs) tabs.style.display = 'none';
-                }
-            """)
-            time.sleep(1)
-
-            # Capture the report canvas area
-            screenshot_path = output_dir / f"{name}.png"
-            page.screenshot(path=str(screenshot_path), full_page=False)
-            print(f"  Captured: {screenshot_path}")
-
-        browser.close()
-
-    print(f"\nDone! Screenshots saved to: {output_dir}")
+    print(f"\nDone! {len(saved)} images saved to: {output_dir}")
     return output_dir
 
 
+def capture_report(config, pdf_path=None):
+    """Main entry point — find PDF and extract pages."""
+    if pdf_path:
+        pdf_path = Path(pdf_path)
+    else:
+        pdf_path = find_pdf(config)
+
+    if not pdf_path or not pdf_path.exists():
+        print("ERROR: No PDF file found.")
+        print("\nTo use this script:")
+        print("  1. In Looker Studio, go to File > Download > PDF")
+        print("  2. Save the PDF in the report-generator folder")
+        print("  3. Run this script again")
+        print("\nOr specify the path: python capture.py --pdf \"path/to/report.pdf\"")
+        sys.exit(1)
+
+    return extract_pages(pdf_path, config)
+
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Convert Looker Studio PDF export to images"
+    )
+    parser.add_argument(
+        "--pdf",
+        help="Path to the Looker Studio PDF file"
+    )
+    args = parser.parse_args()
+
     config = load_config()
-    capture_report(config)
+    capture_report(config, pdf_path=args.pdf)
