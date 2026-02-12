@@ -117,8 +117,9 @@ function uploadCSV() {
 }
 
 /**
- * Clears the data sheet and replaces it with parsed CSV data.
- * Keeps the same sheet so Looker Studio stays connected.
+ * Replaces only the data rows in the sheet, preserving the header row.
+ * This prevents Looker Studio from losing its column mapping and
+ * requiring a manual reconnect.
  */
 function replaceSheetData(csvText) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -136,26 +137,42 @@ function replaceSheetData(csvText) {
     return 'No data found in CSV.';
   }
 
-  // Clear all existing content
-  sheet.clearContents();
+  // Separate header and data rows from the CSV
+  var csvHeaders = rows[0];
+  var dataRows = rows.slice(1);
 
-  // Write all rows (header + data)
-  sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
+  // Check if the sheet already has headers (first-time vs. subsequent imports)
+  var lastRow = sheet.getLastRow();
+  var hasExistingHeaders = lastRow > 0;
 
-  // Format header row
-  sheet.getRange(1, 1, 1, rows[0].length)
-    .setFontWeight('bold')
-    .setBackground('#2b6777')
-    .setFontColor('#ffffff');
-  sheet.setFrozenRows(1);
-
-  // Auto-resize columns for readability
-  for (var c = 1; c <= rows[0].length; c++) {
-    sheet.autoResizeColumn(c);
+  if (hasExistingHeaders) {
+    // Clear only the data rows (row 2 onward), keep header row intact
+    if (lastRow > 1) {
+      sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).clearContent();
+    }
+  } else {
+    // First time: write the header row too
+    sheet.getRange(1, 1, 1, csvHeaders.length).setValues([csvHeaders]);
+    sheet.getRange(1, 1, 1, csvHeaders.length)
+      .setFontWeight('bold')
+      .setBackground('#2b6777')
+      .setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
   }
 
-  var dataRows = rows.length - 1;
-  return 'Success! Replaced data with ' + dataRows + ' rows (' + rows[0].length + ' columns).';
+  // Write the data rows starting at row 2
+  if (dataRows.length > 0) {
+    sheet.getRange(2, 1, dataRows.length, dataRows[0].length).setValues(dataRows);
+  }
+
+  // Remove any leftover rows if the new data has fewer rows than before
+  var newLastRow = dataRows.length + 1;
+  var maxRows = sheet.getMaxRows();
+  if (maxRows > newLastRow + 1) {
+    sheet.deleteRows(newLastRow + 1, maxRows - newLastRow);
+  }
+
+  return 'Success! Replaced data with ' + dataRows.length + ' rows (' + csvHeaders.length + ' columns). Headers preserved.';
 }
 
 /**
