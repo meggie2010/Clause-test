@@ -364,6 +364,271 @@ h2 {
 }
 
 /* ===========================
+   Monthly Spending Trends
+   =========================== */
+
+.spending-trends {
+  padding: var(--section-padding);
+  background: var(--color-bg);
+}
+
+.trends-dashboard {
+  margin-top: 1rem;
+}
+
+/* Month tab selector */
+.trends-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.month-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  border: 1px solid var(--color-border);
+}
+
+.month-tab {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: transparent;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-main);
+}
+
+.month-tab:hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.month-tab.active {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(43, 103, 119, 0.25);
+}
+
+/* Trends grid: chart + summary */
+.trends-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Chart card */
+.trends-chart-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+
+.trends-chart-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+
+/* Horizontal bar chart */
+.chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chart-bar-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 70px;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bar-label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  text-align: right;
+}
+
+.bar-track {
+  height: 28px;
+  background: var(--color-bg-alt);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  width: var(--bar-width);
+  background: var(--color-primary);
+  border-radius: 6px;
+  transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  min-width: 0;
+}
+
+.bar-fill.accent {
+  background: var(--color-accent);
+}
+
+.bar-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: right;
+}
+
+/* Summary cards */
+.trends-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.summary-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-card.total-card {
+  border-color: var(--color-primary);
+  border-width: 2px;
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-light);
+  font-weight: 600;
+}
+
+.summary-value {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: var(--color-text);
+}
+
+.summary-detail {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.summary-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.summary-change.positive {
+  color: #16a34a;
+}
+
+.summary-change.negative {
+  color: #dc2626;
+}
+
+.summary-change.neutral {
+  color: var(--color-text-light);
+}
+
+.insight-card {
+  grid-column: 1 / -1;
+  background: var(--color-bg-warm);
+  border-color: var(--color-accent);
+}
+
+.summary-insight {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* 6-month trend mini chart */
+.trend-line-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+
+.trend-line-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+
+.trend-line-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  height: 140px;
+  padding-bottom: 1.75rem;
+  position: relative;
+}
+
+.trend-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+  cursor: pointer;
+}
+
+.trend-bar {
+  width: 100%;
+  max-width: 60px;
+  height: var(--bar-height);
+  background: var(--color-primary-light);
+  border-radius: 6px 6px 0 0;
+  transition: height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background 0.2s ease;
+}
+
+.trend-col.active .trend-bar {
+  background: var(--color-primary);
+}
+
+.trend-col:hover .trend-bar {
+  background: var(--color-primary);
+  opacity: 0.8;
+}
+
+.trend-col.active:hover .trend-bar {
+  opacity: 1;
+}
+
+.trend-month-label {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-top: 0.5rem;
+  font-weight: 500;
+  position: absolute;
+  bottom: -1.5rem;
+}
+
+.trend-col.active .trend-month-label {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ===========================
    Approach / Steps
    =========================== */
 
@@ -553,6 +818,10 @@ h2 {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .trends-grid {
+    grid-template-columns: 1fr;
+  }
+
   .about-grid {
     grid-template-columns: 1fr;
     text-align: center;
@@ -597,6 +866,28 @@ h2 {
   .testimonials-grid,
   .steps {
     grid-template-columns: 1fr;
+  }
+
+  .trends-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trends-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-bar-row {
+    grid-template-columns: 80px 1fr 60px;
+  }
+
+  .month-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .month-tab {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
   }
 
   /* Mobile nav */
