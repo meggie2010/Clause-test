@@ -21,6 +21,7 @@
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#spending-trends">Trends</a></li>
         <li><a href="#approach">Approach</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#contact" class="btn btn-nav">Get in Touch</a></li>
@@ -31,7 +32,7 @@
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <h1>Your money should work <em>for</em> you.</h1>
+      <h1>Spend smarter. Save more.</h1>
       <p class="hero-subtitle">Personalized financial guidance to help you budget smarter, invest with confidence, and build the future you deserve.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn btn-primary">Book a Free Consultation</a>
@@ -54,8 +55,8 @@
       </div>
       <div class="about-content">
         <h2>Hi, I'm <span class="highlight">Michael Eggie</span></h2>
-        <p>I'm a personal finance consultant who believes managing money shouldn't feel overwhelming. With over [X] years of experience, I've helped hundreds of clients go from financial stress to financial confidence.</p>
-        <p>Whether you're paying off debt, saving for a big goal, or just trying to make sense of your monthly budget, I'm here to make it simple, actionable, and even a little fun.</p>
+        <p>I'm a personal finance consultant who believes managing money shouldn't feel overwhelming. I help people take control of their money by first focusing on what matters most: improving your spending habits and increasing how much you save. Once you've built that strong foundation, we'll keep investing simple, low-cost, and effective.</p>
+        <p>My approach is practical and straightforward—no complicated jargon, just real strategies that help you spend smarter, save more, and build lasting financial security.</p>
         <div class="about-stats">
           <div class="stat">
             <strong>200+</strong>
@@ -138,6 +139,135 @@
           </div>
           <h3>Ongoing Coaching</h3>
           <p>Monthly check-ins to keep you accountable, celebrate wins, and adjust your plan as life happens. You're never in this alone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Monthly Spending Trends -->
+  <section id="spending-trends" class="spending-trends">
+    <div class="container">
+      <h2>Monthly Spending Trends</h2>
+      <p class="section-subtitle">See how tracking your spending reveals patterns and opportunities to save. Here's an example client dashboard.</p>
+
+      <div class="trends-dashboard">
+        <!-- Month selector -->
+        <div class="trends-controls">
+          <div class="month-tabs">
+            <button class="month-tab" data-month="0">Oct</button>
+            <button class="month-tab" data-month="1">Nov</button>
+            <button class="month-tab" data-month="2">Dec</button>
+            <button class="month-tab" data-month="3">Jan</button>
+            <button class="month-tab" data-month="4">Feb</button>
+            <button class="month-tab active" data-month="5">Mar</button>
+          </div>
+        </div>
+
+        <div class="trends-grid">
+          <!-- Bar chart -->
+          <div class="trends-chart-card">
+            <h3>Spending by Category</h3>
+            <div class="chart-bars" id="categoryChart">
+              <div class="chart-bar-row">
+                <span class="bar-label">Housing</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="housing" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="housing">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Food</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="food" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="food">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Transport</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="transport" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="transport">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Shopping</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="shopping" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="shopping">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Utilities</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="utilities" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="utilities">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Entertainment</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="entertainment" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="entertainment">$0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary cards -->
+          <div class="trends-summary">
+            <div class="summary-card total-card">
+              <span class="summary-label">Total Spent</span>
+              <strong class="summary-value" id="totalSpent">$0</strong>
+              <span class="summary-change" id="totalChange"></span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Biggest Category</span>
+              <strong class="summary-value" id="biggestCategory">—</strong>
+              <span class="summary-detail" id="biggestAmount">$0</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Most Improved</span>
+              <strong class="summary-value" id="mostImproved">—</strong>
+              <span class="summary-change positive" id="improvedAmount"></span>
+            </div>
+            <div class="summary-card insight-card">
+              <span class="summary-label">Insight</span>
+              <p class="summary-insight" id="monthInsight">Select a month to see insights.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6-month trend mini chart -->
+        <div class="trend-line-card">
+          <h3>6-Month Total Spending</h3>
+          <div class="trend-line-chart" id="trendLineChart">
+            <div class="trend-line-bars">
+              <div class="trend-col" data-month="0">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Oct</span>
+              </div>
+              <div class="trend-col" data-month="1">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Nov</span>
+              </div>
+              <div class="trend-col" data-month="2">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Dec</span>
+              </div>
+              <div class="trend-col" data-month="3">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Jan</span>
+              </div>
+              <div class="trend-col" data-month="4">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Feb</span>
+              </div>
+              <div class="trend-col" data-month="5">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Mar</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
