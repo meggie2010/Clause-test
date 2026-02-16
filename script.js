@@ -16,88 +16,150 @@ navLinks.querySelectorAll('a').forEach(link => {
 });
 
 // ===========================
-// Spending Dashboard — Gauge Meters
+// Monthly Spending Trends
 // ===========================
 
 (function () {
-  var NS = 'http://www.w3.org/2000/svg';
-  var CX = 110, CY = 105, R = 80, STROKE = 18;
-  var PATH_LEN = Math.PI * R;
+  // Sample data: 6 months of spending by category
+  var monthlyData = [
+    { month: 'Oct', housing: 1450, food: 620, transport: 340, shopping: 280, utilities: 190, entertainment: 150 },
+    { month: 'Nov', housing: 1450, food: 580, transport: 310, shopping: 420, utilities: 210, entertainment: 180 },
+    { month: 'Dec', housing: 1450, food: 710, transport: 290, shopping: 650, utilities: 230, entertainment: 240 },
+    { month: 'Jan', housing: 1450, food: 540, transport: 320, shopping: 190, utilities: 250, entertainment: 110 },
+    { month: 'Feb', housing: 1450, food: 510, transport: 280, shopping: 210, utilities: 220, entertainment: 130 },
+    { month: 'Mar', housing: 1450, food: 490, transport: 260, shopping: 170, utilities: 200, entertainment: 120 }
+  ];
 
-  function el(tag, attrs) {
-    var node = document.createElementNS(NS, tag);
-    for (var k in attrs) {
-      if (attrs.hasOwnProperty(k)) node.setAttribute(k, attrs[k]);
+  var insights = [
+    'October had steady baseline spending. Food and shopping are your two biggest variable categories — a good place to start optimizing.',
+    'November saw a 50% spike in shopping ($420). Holiday prep likely contributed. Food dropped $40 — nice discipline there.',
+    'December was the highest spending month at $3,570. Holiday shopping ($650) and dining out drove the increase. Expect this — plan ahead next year.',
+    'January brought a strong reset. Shopping dropped 71% from December. Overall spending fell to $2,860 — a great recovery month.',
+    'February continued the downward trend. Food spending dropped to $510 and transport hit its lowest point. Consistent progress.',
+    'March is your best month yet at $2,690 total. Every variable category is at or near its 6-month low. Your budget plan is working.'
+  ];
+
+  var categories = ['housing', 'food', 'transport', 'shopping', 'utilities', 'entertainment'];
+
+  function getTotal(data) {
+    return categories.reduce(function (sum, cat) { return sum + data[cat]; }, 0);
+  }
+
+  function findBiggest(data) {
+    var max = 0;
+    var name = '';
+    categories.forEach(function (cat) {
+      if (data[cat] > max) { max = data[cat]; name = cat; }
+    });
+    return { name: name.charAt(0).toUpperCase() + name.slice(1), amount: max };
+  }
+
+  function findMostImproved(index) {
+    if (index === 0) return { name: '—', change: 0 };
+    var best = { name: '—', change: 0 };
+    categories.forEach(function (cat) {
+      var diff = monthlyData[index - 1][cat] - monthlyData[index][cat];
+      if (diff > best.change) {
+        best = { name: cat.charAt(0).toUpperCase() + cat.slice(1), change: diff };
+      }
+    });
+    return best;
+  }
+
+  function formatCurrency(n) {
+    return '$' + n.toLocaleString();
+  }
+
+  function updateDashboard(monthIndex) {
+    var data = monthlyData[monthIndex];
+    var total = getTotal(data);
+    var maxCatValue = Math.max.apply(null, categories.map(function (c) { return data[c]; }));
+
+    // Update category bars
+    categories.forEach(function (cat) {
+      var pct = (data[cat] / maxCatValue) * 100;
+      var fills = document.querySelectorAll('.bar-fill[data-category="' + cat + '"]');
+      var values = document.querySelectorAll('.bar-value[data-category="' + cat + '"]');
+      fills.forEach(function (el) { el.style.setProperty('--bar-width', pct + '%'); });
+      values.forEach(function (el) { el.textContent = formatCurrency(data[cat]); });
+    });
+
+    // Update total
+    var totalEl = document.getElementById('totalSpent');
+    if (totalEl) totalEl.textContent = formatCurrency(total);
+
+    // Update total change
+    var changeEl = document.getElementById('totalChange');
+    if (changeEl && monthIndex > 0) {
+      var prevTotal = getTotal(monthlyData[monthIndex - 1]);
+      var diff = total - prevTotal;
+      var pctChange = ((diff / prevTotal) * 100).toFixed(1);
+      if (diff < 0) {
+        changeEl.textContent = pctChange + '% vs last month';
+        changeEl.className = 'summary-change positive';
+      } else if (diff > 0) {
+        changeEl.textContent = '+' + pctChange + '% vs last month';
+        changeEl.className = 'summary-change negative';
+      } else {
+        changeEl.textContent = 'No change vs last month';
+        changeEl.className = 'summary-change neutral';
+      }
+    } else if (changeEl) {
+      changeEl.textContent = 'Baseline month';
+      changeEl.className = 'summary-change neutral';
     }
-    return node;
+
+    // Update biggest category
+    var biggest = findBiggest(data);
+    var bigCatEl = document.getElementById('biggestCategory');
+    var bigAmtEl = document.getElementById('biggestAmount');
+    if (bigCatEl) bigCatEl.textContent = biggest.name;
+    if (bigAmtEl) bigAmtEl.textContent = formatCurrency(biggest.amount);
+
+    // Update most improved
+    var improved = findMostImproved(monthIndex);
+    var impEl = document.getElementById('mostImproved');
+    var impAmtEl = document.getElementById('improvedAmount');
+    if (impEl) impEl.textContent = improved.name;
+    if (impAmtEl) {
+      impAmtEl.textContent = improved.change > 0 ? '-' + formatCurrency(improved.change) + ' saved' : 'N/A';
+    }
+
+    // Update insight
+    var insightEl = document.getElementById('monthInsight');
+    if (insightEl) insightEl.textContent = insights[monthIndex];
+
+    // Update month tabs
+    document.querySelectorAll('.month-tab').forEach(function (tab) {
+      tab.classList.toggle('active', parseInt(tab.dataset.month) === monthIndex);
+    });
+
+    // Update 6-month trend bars
+    var totals = monthlyData.map(function (d) { return getTotal(d); });
+    var maxTotal = Math.max.apply(null, totals);
+    document.querySelectorAll('.trend-col').forEach(function (col) {
+      var i = parseInt(col.dataset.month);
+      var bar = col.querySelector('.trend-bar');
+      var pct = (totals[i] / maxTotal) * 100;
+      if (bar) bar.style.setProperty('--bar-height', pct + '%');
+      col.classList.toggle('active', i === monthIndex);
+    });
   }
 
-  function polar(angleDeg) {
-    var rad = angleDeg * Math.PI / 180;
-    return { x: CX + R * Math.cos(rad), y: CY - R * Math.sin(rad) };
-  }
-
-  var arcD = (function () {
-    var s = polar(180), e = polar(0);
-    return 'M ' + s.x + ' ' + s.y + ' A ' + R + ' ' + R + ' 0 0 1 ' + e.x + ' ' + e.y;
-  })();
-
-  document.querySelectorAll('.gauge-card').forEach(function (card) {
-    var limit = parseFloat(card.dataset.limit);
-    var actual = parseFloat(card.dataset.actual);
-    var max = parseFloat(card.dataset.max);
-    var svg = card.querySelector('.gauge-svg');
-    if (!svg) return;
-
-    // Background track
-    svg.appendChild(el('path', {
-      d: arcD, fill: 'none', stroke: '#e2e8f0',
-      'stroke-width': STROKE, 'stroke-linecap': 'round'
-    }));
-
-    // Actual value fill
-    var offset = PATH_LEN * (1 - actual / max);
-    var fillPath = el('path', {
-      d: arcD, fill: 'none', stroke: '#2b6777',
-      'stroke-width': STROKE, 'stroke-linecap': 'round',
-      'stroke-dasharray': PATH_LEN, 'stroke-dashoffset': PATH_LEN
+  // Event listeners for month tabs
+  document.querySelectorAll('.month-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      updateDashboard(parseInt(tab.dataset.month));
     });
-    svg.appendChild(fillPath);
-
-    // Animate fill on load
-    requestAnimationFrame(function () {
-      fillPath.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      fillPath.setAttribute('stroke-dashoffset', offset);
-    });
-
-    // Needle at limit
-    var needleAngle = 180 - (limit / max * 180);
-    var tip = polar(needleAngle);
-    svg.appendChild(el('line', {
-      x1: CX, y1: CY, x2: tip.x, y2: tip.y,
-      stroke: '#2d3748', 'stroke-width': 2.5, 'stroke-linecap': 'round'
-    }));
-
-    // Center dot
-    svg.appendChild(el('circle', {
-      cx: CX, cy: CY, r: 5, fill: '#2d3748'
-    }));
-
-    // Scale labels: 0 and max
-    var lbl0 = el('text', {
-      x: CX - R, y: CY + 22,
-      'text-anchor': 'middle', 'font-size': '11',
-      fill: '#64748b', 'font-family': 'sans-serif'
-    });
-    lbl0.textContent = '0';
-    svg.appendChild(lbl0);
-
-    var lblMax = el('text', {
-      x: CX + R, y: CY + 22,
-      'text-anchor': 'middle', 'font-size': '11',
-      fill: '#64748b', 'font-family': 'sans-serif'
-    });
-    lblMax.textContent = max;
-    svg.appendChild(lblMax);
   });
+
+  // Event listeners for trend column clicks
+  document.querySelectorAll('.trend-col').forEach(function (col) {
+    col.addEventListener('click', function () {
+      updateDashboard(parseInt(col.dataset.month));
+    });
+  });
+
+  // Initialize with March (index 5)
+  updateDashboard(5);
 })();
