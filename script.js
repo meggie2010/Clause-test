@@ -191,15 +191,16 @@ navLinks.querySelectorAll('a').forEach(link => {
 
     var goals = form.querySelector('#goals').value.trim();
 
-    var body = 'NEW CLIENT INTAKE FORM\n'
-      + '========================\n\n'
-      + 'Name: ' + name + '\n'
-      + 'Email: ' + email + '\n\n'
-      + 'Annual Income: $' + income + '\n'
-      + 'Monthly Savings: $' + savings + '\n\n'
-      + 'Tracks Expenses: ' + trackExpenses + '\n\n'
-      + 'Current Debts: ' + (debts.length ? debts.join(', ') : 'None selected') + '\n\n'
-      + 'Financial Goals:\n' + goals + '\n';
+    var nl = '\r\n';
+    var body = 'NEW CLIENT INTAKE FORM' + nl
+      + '========================' + nl + nl
+      + 'Name: ' + name + nl + nl
+      + 'Email: ' + email + nl + nl
+      + 'Annual Gross Income: $' + income + nl + nl
+      + 'Monthly Savings: $' + savings + nl + nl
+      + 'Tracks Expenses: ' + trackExpenses + nl + nl
+      + 'Current Debts: ' + (debts.length ? debts.join(', ') : 'None selected') + nl + nl
+      + 'Financial Goals:' + nl + goals + nl;
 
     var subject = 'Intake Form — ' + name;
     var mailto = 'mailto:michaeleggie1@gmail.com'
