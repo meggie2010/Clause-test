@@ -134,29 +134,12 @@ navLinks.querySelectorAll('a').forEach(link => {
       tab.classList.toggle('active', parseInt(tab.dataset.month) === monthIndex);
     });
 
-    // Update 6-month trend bars
-    var totals = monthlyData.map(function (d) { return getTotal(d); });
-    var maxTotal = Math.max.apply(null, totals);
-    document.querySelectorAll('.trend-col').forEach(function (col) {
-      var i = parseInt(col.dataset.month);
-      var bar = col.querySelector('.trend-bar');
-      var pct = (totals[i] / maxTotal) * 100;
-      if (bar) bar.style.setProperty('--bar-height', pct + '%');
-      col.classList.toggle('active', i === monthIndex);
-    });
   }
 
   // Event listeners for month tabs
   document.querySelectorAll('.month-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       updateDashboard(parseInt(tab.dataset.month));
-    });
-  });
-
-  // Event listeners for trend column clicks
-  document.querySelectorAll('.trend-col').forEach(function (col) {
-    col.addEventListener('click', function () {
-      updateDashboard(parseInt(col.dataset.month));
     });
   });
 
@@ -191,15 +174,16 @@ navLinks.querySelectorAll('a').forEach(link => {
 
     var goals = form.querySelector('#goals').value.trim();
 
-    var body = 'NEW CLIENT INTAKE FORM\n'
-      + '========================\n\n'
-      + 'Name: ' + name + '\n'
-      + 'Email: ' + email + '\n\n'
-      + 'Annual Income: $' + income + '\n'
-      + 'Monthly Savings: $' + savings + '\n\n'
-      + 'Tracks Expenses: ' + trackExpenses + '\n\n'
-      + 'Current Debts: ' + (debts.length ? debts.join(', ') : 'None selected') + '\n\n'
-      + 'Financial Goals:\n' + goals + '\n';
+    var nl = '\r\n';
+    var body = 'NEW CLIENT INTAKE FORM' + nl
+      + '========================' + nl + nl
+      + 'Name: ' + name + nl + nl
+      + 'Email: ' + email + nl + nl
+      + 'Annual Gross Income: $' + income + nl + nl
+      + 'Monthly Savings: $' + savings + nl + nl
+      + 'Tracks Expenses: ' + trackExpenses + nl + nl
+      + 'Current Debts: ' + (debts.length ? debts.join(', ') : 'None selected') + nl + nl
+      + 'Financial Goals:' + nl + goals + nl;
 
     var subject = 'Intake Form — ' + name;
     var mailto = 'mailto:michaeleggie1@gmail.com'
