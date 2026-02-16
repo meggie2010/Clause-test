@@ -865,6 +865,35 @@ h2 {
 }
 
 /* ===========================
+   Example Dashboard
+   =========================== */
+
+.dashboard {
+  padding: var(--section-padding);
+  background: var(--color-bg);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===========================
    Contact / CTA
    =========================== */
 
