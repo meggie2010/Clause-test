@@ -236,7 +236,18 @@ h2 {
   font-size: 1.2rem;
   color: var(--color-text-light);
   max-width: 560px;
+  margin: 0 auto 1.5rem;
+}
+
+.hero-list {
+  list-style: disc;
+  text-align: left;
+  display: inline-block;
   margin: 0 auto 2.5rem;
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  padding-left: 1.25rem;
 }
 
 .hero-actions {
