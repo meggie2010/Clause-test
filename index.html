@@ -140,166 +140,130 @@
     </div>
   </section>
 
-  <!-- Spending Dashboard -->
-  <section id="spending-trends" class="spending-dashboard">
+  <!-- Monthly Spending Trends -->
+  <section id="spending-trends" class="spending-trends">
     <div class="container">
-      <h2>Spending Dashboard</h2>
+      <h2>Monthly Spending Trends</h2>
       <p class="section-subtitle">See how tracking your spending reveals patterns and opportunities to save. Here's an example client dashboard.</p>
 
-      <!-- Month label -->
-      <div class="dashboard-month">February 2026</div>
-
-      <!-- Gauge meters -->
-      <div class="gauges-row">
-        <div class="gauge-card" data-gauge="shopping" data-limit="150" data-actual="108.8" data-max="300">
-          <svg class="gauge-svg" viewBox="0 0 220 135"></svg>
-          <h4>Shopping</h4>
-          <div class="gauge-info">
-            <span>Limit: <strong>150</strong></span>
-            <span>Actual: <strong>108.8</strong></span>
+      <div class="trends-dashboard">
+        <!-- Month selector -->
+        <div class="trends-controls">
+          <div class="month-tabs">
+            <button class="month-tab" data-month="0">Oct</button>
+            <button class="month-tab" data-month="1">Nov</button>
+            <button class="month-tab" data-month="2">Dec</button>
+            <button class="month-tab" data-month="3">Jan</button>
+            <button class="month-tab" data-month="4">Feb</button>
+            <button class="month-tab active" data-month="5">Mar</button>
           </div>
         </div>
-        <div class="gauge-card" data-gauge="dining" data-limit="150" data-actual="37.5" data-max="300">
-          <svg class="gauge-svg" viewBox="0 0 220 135"></svg>
-          <h4>Dining &amp; Drinks</h4>
-          <div class="gauge-info">
-            <span>Limit: <strong>150</strong></span>
-            <span>Actual: <strong>37.5</strong></span>
+
+        <div class="trends-grid">
+          <!-- Bar chart -->
+          <div class="trends-chart-card">
+            <h3>Spending by Category</h3>
+            <div class="chart-bars" id="categoryChart">
+              <div class="chart-bar-row">
+                <span class="bar-label">Housing</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="housing" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="housing">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Food</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="food" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="food">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Transport</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="transport" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="transport">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Shopping</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="shopping" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="shopping">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Utilities</span>
+                <div class="bar-track">
+                  <div class="bar-fill" data-category="utilities" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="utilities">$0</span>
+              </div>
+              <div class="chart-bar-row">
+                <span class="bar-label">Entertainment</span>
+                <div class="bar-track">
+                  <div class="bar-fill accent" data-category="entertainment" style="--bar-width: 0%"></div>
+                </div>
+                <span class="bar-value" data-category="entertainment">$0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary cards -->
+          <div class="trends-summary">
+            <div class="summary-card total-card">
+              <span class="summary-label">Total Spent</span>
+              <strong class="summary-value" id="totalSpent">$0</strong>
+              <span class="summary-change" id="totalChange"></span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Biggest Category</span>
+              <strong class="summary-value" id="biggestCategory">—</strong>
+              <span class="summary-detail" id="biggestAmount">$0</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Most Improved</span>
+              <strong class="summary-value" id="mostImproved">—</strong>
+              <span class="summary-change positive" id="improvedAmount"></span>
+            </div>
+            <div class="summary-card insight-card">
+              <span class="summary-label">Insight</span>
+              <p class="summary-insight" id="monthInsight">Select a month to see insights.</p>
+            </div>
           </div>
         </div>
-        <div class="gauge-card" data-gauge="personal" data-limit="150" data-actual="100.0" data-max="300">
-          <svg class="gauge-svg" viewBox="0 0 220 135"></svg>
-          <h4>Personal Care</h4>
-          <div class="gauge-info">
-            <span>Limit: <strong>150</strong></span>
-            <span>Actual: <strong>100.0</strong></span>
+
+        <!-- 6-month trend mini chart -->
+        <div class="trend-line-card">
+          <h3>6-Month Total Spending</h3>
+          <div class="trend-line-chart" id="trendLineChart">
+            <div class="trend-line-bars">
+              <div class="trend-col" data-month="0">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Oct</span>
+              </div>
+              <div class="trend-col" data-month="1">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Nov</span>
+              </div>
+              <div class="trend-col" data-month="2">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Dec</span>
+              </div>
+              <div class="trend-col" data-month="3">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Jan</span>
+              </div>
+              <div class="trend-col" data-month="4">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Feb</span>
+              </div>
+              <div class="trend-col" data-month="5">
+                <div class="trend-bar" style="--bar-height: 0%"></div>
+                <span class="trend-month-label">Mar</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Budget tables -->
-      <div class="budget-tables">
-        <!-- Summary table -->
-        <div class="budget-table-card">
-          <h3>Budget vs. Actual</h3>
-          <table class="budget-table">
-            <thead>
-              <tr>
-                <th>Spending Group</th>
-                <th>Budget</th>
-                <th>Actual</th>
-                <th>Variance</th>
-                <th>% Budget</th>
-                <th>% Actual</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Guilt Free Spending</td>
-                <td>$630</td>
-                <td>$1,269</td>
-                <td class="variance over">$639</td>
-                <td>15%</td>
-                <td>30%</td>
-              </tr>
-              <tr>
-                <td>Fixed Costs</td>
-                <td>$2,100</td>
-                <td>$803</td>
-                <td class="variance under">-$1,297</td>
-                <td>50%</td>
-                <td>19%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Guilt Free Spending detail -->
-        <div class="budget-table-card">
-          <h3>Guilt Free Spending</h3>
-          <table class="budget-table">
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Budget</th>
-                <th>Actual</th>
-                <th>Variance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Shopping</td>
-                <td>$150</td>
-                <td>$929</td>
-                <td class="variance over">$779</td>
-              </tr>
-              <tr>
-                <td>Dining &amp; Drinks</td>
-                <td>$150</td>
-                <td>$182</td>
-                <td class="variance over">$32</td>
-              </tr>
-              <tr>
-                <td>Health &amp; Wellness</td>
-                <td>$55</td>
-                <td>$55</td>
-                <td class="variance neutral">$0</td>
-              </tr>
-              <tr>
-                <td>Entertainment &amp; Rec.</td>
-                <td>$25</td>
-                <td>$20</td>
-                <td class="variance under">-$5</td>
-              </tr>
-              <tr>
-                <td>Personal Care</td>
-                <td>$150</td>
-                <td>$83</td>
-                <td class="variance under">-$67</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Fixed Costs detail -->
-        <div class="budget-table-card">
-          <h3>Fixed Costs</h3>
-          <table class="budget-table">
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Budget</th>
-                <th>Actual</th>
-                <th>Variance</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Auto &amp; Transport</td>
-                <td>$200</td>
-                <td>$93</td>
-                <td class="variance under">-$107</td>
-              </tr>
-              <tr>
-                <td>Bills &amp; Utilities</td>
-                <td>$500</td>
-                <td>$390</td>
-                <td class="variance under">-$110</td>
-              </tr>
-              <tr>
-                <td>Pets</td>
-                <td>$400</td>
-                <td>$64</td>
-                <td class="variance under">-$336</td>
-              </tr>
-              <tr>
-                <td>Groceries</td>
-                <td>$600</td>
-                <td>$256</td>
-                <td class="variance under">-$344</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
