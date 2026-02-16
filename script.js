@@ -134,29 +134,12 @@ navLinks.querySelectorAll('a').forEach(link => {
       tab.classList.toggle('active', parseInt(tab.dataset.month) === monthIndex);
     });
 
-    // Update 6-month trend bars
-    var totals = monthlyData.map(function (d) { return getTotal(d); });
-    var maxTotal = Math.max.apply(null, totals);
-    document.querySelectorAll('.trend-col').forEach(function (col) {
-      var i = parseInt(col.dataset.month);
-      var bar = col.querySelector('.trend-bar');
-      var pct = (totals[i] / maxTotal) * 100;
-      if (bar) bar.style.setProperty('--bar-height', pct + '%');
-      col.classList.toggle('active', i === monthIndex);
-    });
   }
 
   // Event listeners for month tabs
   document.querySelectorAll('.month-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       updateDashboard(parseInt(tab.dataset.month));
-    });
-  });
-
-  // Event listeners for trend column clicks
-  document.querySelectorAll('.trend-col').forEach(function (col) {
-    col.addEventListener('click', function () {
-      updateDashboard(parseInt(col.dataset.month));
     });
   });
 
