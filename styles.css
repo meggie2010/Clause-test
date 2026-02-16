@@ -650,7 +650,7 @@ h2 {
 }
 
 .intake-card {
-  max-width: 640px;
+  max-width: 820px;
   margin: 0 auto;
   background: var(--color-bg);
   border-radius: var(--radius-lg);
@@ -681,15 +681,19 @@ h2 {
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0.75rem;
+  align-items: start;
 }
 
 .form-group > label {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-text);
+  padding-top: 0.7rem;
+  text-align: right;
+  line-height: 1.4;
 }
 
 .label-hint {
@@ -795,7 +799,8 @@ h2 {
 
 .btn-submit {
   margin-top: 0.5rem;
-  width: 100%;
+  margin-left: calc(200px + 0.75rem);
+  width: calc(100% - 200px - 0.75rem);
   font-size: 1.05rem;
   padding: 1rem;
   text-align: center;
@@ -806,6 +811,7 @@ h2 {
   font-size: 0.8rem;
   color: var(--color-text-light);
   margin-top: -0.5rem;
+  margin-left: calc(200px + 0.75rem);
 }
 
 @media (max-width: 680px) {
@@ -815,6 +821,25 @@ h2 {
 
   .intake-card h1 {
     font-size: 1.5rem;
+  }
+
+  .form-group {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .form-group > label {
+    text-align: left;
+    padding-top: 0;
+  }
+
+  .btn-submit {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .form-note {
+    margin-left: 0;
   }
 
   .checkbox-group {
