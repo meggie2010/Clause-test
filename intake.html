@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Intake — Clarity Finance</title>
+  <meta name="description" content="Fill out this short intake form so we can learn more about your financial situation and goals.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="header">
+    <nav class="nav container">
+      <a href="index.html" class="logo">Clarity<span>Finance</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#spending-trends">Trends</a></li>
+        <li><a href="index.html#approach">Approach</a></li>
+        <li><a href="index.html#contact" class="btn btn-nav">Get in Touch</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Intake Form -->
+  <section class="intake-section">
+    <div class="container">
+      <div class="intake-card">
+        <h1>Client Intake Form</h1>
+        <p class="intake-subtitle">Tell me a little about your financial situation so I can prepare for our conversation. All information is kept confidential.</p>
+
+        <form id="intakeForm" class="intake-form">
+          <!-- Name -->
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com">
+          </div>
+
+          <!-- Annual Income -->
+          <div class="form-group">
+            <label for="income">Annual Income (USD)</label>
+            <div class="input-prefix">
+              <span>$</span>
+              <input type="text" id="income" name="income" required placeholder="e.g. 75,000">
+            </div>
+          </div>
+
+          <!-- Monthly Savings -->
+          <div class="form-group">
+            <label for="savings">Approximate Monthly Savings (USD)</label>
+            <div class="input-prefix">
+              <span>$</span>
+              <input type="text" id="savings" name="savings" required placeholder="e.g. 500">
+            </div>
+          </div>
+
+          <!-- Track Expenses -->
+          <div class="form-group">
+            <label>Do you track your expenses?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="track_expenses" value="Yes" required>
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="track_expenses" value="Somewhat">
+                <span>Somewhat</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="track_expenses" value="No">
+                <span>No</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Debts -->
+          <div class="form-group">
+            <label>Which debts do you currently have? <span class="label-hint">(Select all that apply)</span></label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Mortgage">
+                <span>Mortgage</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Car loan">
+                <span>Car loan</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Student loans">
+                <span>Student loans</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Credit cards">
+                <span>Credit cards</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Personal loans">
+                <span>Personal loans</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="debts" value="Other">
+                <span>Other</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Financial Goals -->
+          <div class="form-group">
+            <label for="goals">What would you like to improve most about your financial situation?</label>
+            <textarea id="goals" name="goals" rows="5" required placeholder="Tell me about your goals, challenges, or anything you'd like to work on..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">Submit Intake Form</button>
+          <p class="form-note">This will open your email client with your responses pre-filled. Just hit send!</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <a href="index.html" class="logo">Clarity<span>Finance</span></a>
+      <p>&copy; 2026 Clarity Finance. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

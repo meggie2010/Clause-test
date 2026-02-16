@@ -163,3 +163,49 @@ navLinks.querySelectorAll('a').forEach(link => {
   // Initialize with March (index 5)
   updateDashboard(5);
 })();
+
+// ===========================
+// Intake Form Submission
+// ===========================
+
+(function () {
+  var form = document.getElementById('intakeForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name = form.querySelector('#name').value.trim();
+    var email = form.querySelector('#email').value.trim();
+    var income = form.querySelector('#income').value.trim();
+    var savings = form.querySelector('#savings').value.trim();
+
+    var trackExpenses = '';
+    var radios = form.querySelectorAll('input[name="track_expenses"]');
+    radios.forEach(function (r) { if (r.checked) trackExpenses = r.value; });
+
+    var debts = [];
+    form.querySelectorAll('input[name="debts"]:checked').forEach(function (cb) {
+      debts.push(cb.value);
+    });
+
+    var goals = form.querySelector('#goals').value.trim();
+
+    var body = 'NEW CLIENT INTAKE FORM\n'
+      + '========================\n\n'
+      + 'Name: ' + name + '\n'
+      + 'Email: ' + email + '\n\n'
+      + 'Annual Income: $' + income + '\n'
+      + 'Monthly Savings: $' + savings + '\n\n'
+      + 'Tracks Expenses: ' + trackExpenses + '\n\n'
+      + 'Current Debts: ' + (debts.length ? debts.join(', ') : 'None selected') + '\n\n'
+      + 'Financial Goals:\n' + goals + '\n';
+
+    var subject = 'Intake Form — ' + name;
+    var mailto = 'mailto:michaeleggie1@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+  });
+})();

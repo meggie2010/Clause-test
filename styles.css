@@ -640,6 +640,189 @@ h2 {
 }
 
 /* ===========================
+   Intake Form
+   =========================== */
+
+.intake-section {
+  padding: 8rem 0 4rem;
+  background: var(--color-bg-warm);
+  min-height: calc(100vh - 72px);
+}
+
+.intake-card {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.intake-card h1 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.intake-subtitle {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.intake-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group > label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.label-hint {
+  font-weight: 400;
+  color: var(--color-text-light);
+  font-size: 0.85rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background: var(--color-bg);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(43, 103, 119, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.input-prefix {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-prefix:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(43, 103, 119, 0.1);
+}
+
+.input-prefix span {
+  padding: 0.7rem 0.75rem;
+  background: var(--color-bg-alt);
+  color: var(--color-text-light);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.input-prefix input {
+  border: none !important;
+  flex: 1;
+  box-shadow: none !important;
+}
+
+/* Radio & checkbox groups */
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition: all 0.2s;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  border-color: var(--color-primary);
+  background: rgba(43, 103, 119, 0.04);
+}
+
+.radio-label input:checked + span,
+.checkbox-label input:checked + span {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.radio-label:has(input:checked),
+.checkbox-label:has(input:checked) {
+  border-color: var(--color-primary);
+  background: rgba(43, 103, 119, 0.06);
+}
+
+.btn-submit {
+  margin-top: 0.5rem;
+  width: 100%;
+  font-size: 1.05rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.form-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-top: -0.5rem;
+}
+
+@media (max-width: 680px) {
+  .intake-card {
+    padding: 2rem 1.25rem;
+  }
+
+  .intake-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+  }
+}
+
+/* ===========================
    Approach / Steps
    =========================== */
 
