@@ -280,10 +280,9 @@ h2 {
 }
 
 .about-image img {
-  width: 280px;
-  height: 280px;
-  object-fit: cover;
-  border-radius: 16px;
+  width: 127px;
+  height: 151px;
+  border-radius: 12px;
   display: block;
 }
 
