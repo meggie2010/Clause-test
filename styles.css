@@ -269,6 +269,15 @@ h2 {
   color: var(--color-accent);
 }
 
+.hero-closing {
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--color-text);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+}
+
 .hero-actions {
   display: flex;
   gap: 1rem;
